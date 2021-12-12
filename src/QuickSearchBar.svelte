@@ -1,6 +1,7 @@
 <script>
   import { tick, onMount, createEventDispatcher } from "svelte";
   import fuzzysort from "fuzzysort";
+  import { fade } from 'svelte/transition';
 
   export let hidden = true;
   export let options = [{ label: "Example", link: "/" }];
@@ -131,59 +132,16 @@
 </script>
 
 <style>
-  .hidden {
-    display: none;
-  }
-  #background {
-    position: fixed;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.3);
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-  }
-  #foreground {
-    z-index: 1111;
-    position: fixed;
-    left: 10%;
-    top: 10%;
-    width: 80%;
-    background-color: white;
-    padding: 10px;
-  }
-  input {
-    width: 100%;
-    height: 30px;
-  }
-  .list {
-    max-height: 500px;
-    overflow-y: auto;
-  }
-  .list,
-  .list li {
-    margin: 0;
-    padding: 0;
-    text-indent: 0;
-    list-style-type: none;
-  }
-  .list li {
-    height: 14px;
-    line-height: 14px;
-    padding: 14px;
-  }
-  .list li:focus {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  .list:not(:focus-within) > :first-child {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
+
+/* The styles for this module are now in command.css for easier styling */
+@import url("/src/styles/command.css");
+
 </style>
 
 <div id="background" class:hidden on:click={() => (hidden = true)} />
 <div id="foreground" class:hidden>
   <slot name="input">
-    <input type="text" bind:value bind:this={inputEl} />
+    <input type="text" bind:value bind:this={inputEl} placeholder="Start typing..." />
   </slot>
   <ul class="list" bind:this={listEl}>
     {#each availiableOptions as option, i}
@@ -201,3 +159,4 @@
     {/each}
   </ul>
 </div>
+
